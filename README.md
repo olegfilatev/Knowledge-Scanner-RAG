@@ -1,4 +1,6 @@
-# Knowledge Scanner RAG
+
+
+# Knowledge Scanner RAG (written with AI without hand-coding in 4 hours)
 
 A two-phase Retrieval-Augmented Generation (RAG) app that scrapes Confluence pages, embeds them into a local vector store, and lets you chat with your knowledge base using Claude AI.
 
