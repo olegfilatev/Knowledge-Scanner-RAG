@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Knowledge Scanner RAG</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<header>
+  <h1>Knowledge Scanner RAG</h1>
+  <p>Search Confluence, build a knowledge base, get AI-powered answers</p>
+</header>
+
+<div class="tabs">
+  <button class="tab-btn active" data-tab="gather">Gather Data</button>
+  <button class="tab-btn" data-tab="search">Smart Search</button>
+  <button class="tab-btn" data-tab="collections">Collections</button>
+</div>
+
+<main>
+
+  <!-- GATHER TAB -->
+  <div id="tab-gather" class="tab-panel active">
+    <div class="card">
+      <h2>Step 1 — Scrape Confluence Pages</h2>
+      <div class="form-grid">
+        <div class="form-row">
+          <label for="base-url">Confluence Base URL</label>
+          <input id="base-url" type="text" placeholder="https://eis.atlassian.net/wiki/home" />
+        </div>
+        <div class="form-row">
+          <label for="search-query">Search Query</label>
+          <input id="search-query" type="text" placeholder="deployment process" />
+        </div>
+        <div class="form-row">
+          <label for="collection-name">Collection Name</label>
+          <input id="collection-name" type="text" placeholder="deployment-kb" />
+        </div>
+        <div class="form-row">
+          <label for="max-pages">Max Pages</label>
+          <input id="max-pages" type="number" value="10" min="1" max="50" />
+        </div>
+        <div class="form-row">
+          <label for="username">Username (optional)</label>
+          <input id="username" type="text" placeholder="Leave blank for manual login" />
+        </div>
+        <div class="form-row">
+          <label for="password">Password (optional)</label>
+          <input id="password" type="password" />
+        </div>
+      </div>
+      <button class="primary" id="btn-gather">Open Browser</button>
+    </div>
+
+    <div class="card hidden" id="progress-card">
+      <h2>Progress <span class="status-badge pending" id="gather-status">pending</span></h2>
+      <pre id="progress-log"></pre>
+      <div id="process-action" class="hidden" style="margin-top:1rem;">
+        <p style="font-size:.875rem;color:var(--text-muted);margin-bottom:.6rem;">
+          Navigate to the Confluence search results you want to index, then click the button below.
+        </p>
+        <button class="primary" id="btn-process">Process Current Page</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SEARCH / CHAT TAB -->
+  <div id="tab-search" class="tab-panel">
+    <div class="chat-wrapper">
+      <div class="card chat-settings">
+        <div class="chat-settings-row">
+          <div class="form-row" style="flex:1;margin:0">
+            <label for="search-collection">Collection</label>
+            <select id="search-collection">
+              <option value="">— select a collection —</option>
+            </select>
+          </div>
+          <div class="form-row" style="width:110px;margin:0">
+            <label for="n-results">Chunks</label>
+            <input id="n-results" type="number" value="5" min="1" max="20" />
+          </div>
+          <button class="secondary" id="btn-new-chat" style="align-self:flex-end">New Chat</button>
+        </div>
+      </div>
+
+      <div id="chat-messages" class="chat-messages">
+        <div class="chat-empty">Select a collection above and ask a question to start chatting.</div>
+      </div>
+
+      <div class="card chat-input-area">
+        <div class="chat-input-row">
+          <textarea id="chat-input" placeholder="Ask a question… (Enter to send, Shift+Enter for new line)" rows="1"></textarea>
+          <button class="primary" id="btn-send">Send</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLLECTIONS TAB -->
+  <div id="tab-collections" class="tab-panel">
+    <div class="card">
+      <h2>Stored Collections</h2>
+      <ul id="collections-list" class="collections-list">
+        <li style="color:var(--text-muted);font-size:.9rem;">Loading...</li>
+      </ul>
+      <button class="primary" id="btn-refresh-collections" style="margin-top:.75rem;">Refresh</button>
+    </div>
+  </div>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
